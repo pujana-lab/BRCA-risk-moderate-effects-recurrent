@@ -1,6 +1,6 @@
 # BRCA cross-GWAS recurrent-gene pipeline
 
-A **data-free, reproducible workflow** for reconstructing the BRCA1/BRCA2/TNBC cross-GWAS recurrent-gene analysis and publication figure.
+A **data-free, reproducible workflow** for reconstructing the BRCA1/BRCA2/TNBC cross-GWAS recurrent-gene analysis of moderate variant/gene effects.
 
 The repository is designed to contain code, configuration, documentation, and validation fingerprints only. Original GWAS summary statistics, 1000 Genomes genotype files, and external annotation datasets stay outside version control.
 
