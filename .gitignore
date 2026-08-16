@@ -1,0 +1,27 @@
+# Data and reference panels — never commit
+/data/
+/results/
+/reference_panel/
+
+# Genotype / genomic data
+*.bed
+*.bim
+*.fam
+*.pgen
+*.pvar
+*.psam
+*.vcf
+*.vcf.gz
+*.bcf
+
+# Compressed and spreadsheet data
+*.gz
+*.zip
+*.xlsx
+
+# Python/runtime files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+*.log
