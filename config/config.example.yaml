@@ -1,0 +1,112 @@
+project:
+  genome_build: GRCh37
+  ld_population: EUR
+
+# These are the confirmed candidate-variant thresholds from the original analysis.
+variant_filter:
+  p_max: 1.0e-3
+  abs_beta_min: 0.25
+  maf_min: 0.001
+  # INFO thresholds were discussed/used where the relevant array-specific fields existed.
+  # Keep null for a GWAS that does not carry that field.
+  default_info_min: null
+
+harmonization:
+  allow_swapped_allele_order: true
+  remove_indels: true
+  remove_multiallelic_positions: true
+  require_unique_bim_match: true
+  # Unresolved from the archived workflow. Palindromic SNPs are present in the
+  # harmonized intermediate TNBC file, so any removal must have occurred later.
+  exclude_palindromic_before_clumping: null
+
+gene_mapping:
+  windows_bp: [10000, 100000]
+  # Required input columns: CHR, START, END, SYMBOL, ENTREZ_ID
+  gene_reference_tsv: data/reference/genes_grch37.tsv
+  # Optional precomputed human normal-breast Hi-C SNP->gene table.
+  # The attached ±100 kb publication figure does not require this file.
+  hic_snp_gene_tsv: null
+
+ld_clumping:
+  plink_executable: plink
+  reference_prefix: data/reference/g1000_eur
+  # P1 can be fixed because all candidate SNPs satisfy P <= 1e-3.
+  p1: 1.0e-3
+  p2: 1.0
+  # IMPORTANT: exact original r2 and kb values have not yet been recovered.
+  # Fill these before claiming exact reproduction of the archived clump counts.
+  r2: null
+  kb: null
+  allow_overlap: false
+
+recurrence:
+  # Publication-style recurrent-gene figure:
+  min_gwas: 2
+  min_clumps_per_qualifying_gwas: 1
+
+strict_recurrence_profile:
+  # Archived earlier analysis: gene in >1 GWAS AND >=2 LD-independent clumps
+  # in each counted GWAS.
+  min_gwas: 2
+  min_clumps_per_qualifying_gwas: 2
+
+plot:
+  mapping_window_bp: 100000
+  prior_risk_union_tsv: data/annotations/prior_risk_union.tsv
+  # If the original top-10 ranking rule is recovered, set method=compute and
+  # specify it in scripts/08_annotate_gene_categories.py. Until then, the archived
+  # top-10 list can be supplied only as a reference/validation list.
+  top10_reference_txt: reference/archived_top10_100kb.txt
+  label_max_abs_beta_gt: 2.0
+  label_total_clumps_gt: 4
+  output_svg: results/figures/crossGWAS_recurrent_genes_100kb.svg
+  output_png: results/figures/crossGWAS_recurrent_genes_100kb.png
+
+gwas:
+  BRCA1:
+    input: data/gwas/CIMBA_BRCA1.tsv.gz
+    columns:
+      id: ID
+      chr: CHR
+      bp: BP
+      a1: A1
+      a2: A2
+      beta: BETA
+      se: SE
+      p: P
+      eaf: EAF
+      maf: MAF
+      info: null
+
+  BRCA2:
+    input: data/gwas/CIMBA_BRCA2.tsv.gz
+    columns:
+      id: ID
+      chr: CHR
+      bp: BP
+      a1: A1
+      a2: A2
+      beta: BETA
+      se: SE
+      p: P
+      eaf: EAF
+      maf: MAF
+      info: null
+
+  BRCA1_TNBC:
+    input: data/gwas/BRCA1_BCAC_TNBC_META.tsv.gz
+    columns:
+      id: ID
+      chr: CHR
+      bp: BP
+      a1: A1
+      a2: A2
+      beta: BETA
+      se: SE
+      p: P
+      eaf: EAF
+      maf: MAF
+      # If the original GWAS has separate INFO_ONCO / INFO_ICOGS columns,
+      # harmonize/filter them upstream or extend 01_standardize_filter.py.
+      info: null

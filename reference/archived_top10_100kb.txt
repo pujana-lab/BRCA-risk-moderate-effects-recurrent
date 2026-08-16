@@ -1,0 +1,12 @@
+# Archived green labels recovered from the publication SVG.
+# Use for validation only until the recurrence-ranking rule is recovered.
+SNTG1
+AKAP12
+ARMT1
+RMND1
+EML4
+KCNG3
+COX7A2L
+PTPRD
+MTA3
+TRPM3
